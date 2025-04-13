@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: podcaster-backend
+    env: node
+    plan: free
+    branch: main 
+    buildCommand: npm install
+    startCommand: node app.js
+    envVars:
+      - key: PORT
+        value: 10000  
+      - key: NODE_ENV
+        value: production
+        
+  
