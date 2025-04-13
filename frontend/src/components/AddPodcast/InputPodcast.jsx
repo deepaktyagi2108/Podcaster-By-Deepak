@@ -69,7 +69,7 @@ const InputPodcast = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/podcast/add-podcast",
+        "https://podcaster-api.vercel.app//api/v1/podcast/add-podcast",
         data,
         {
           headers: {

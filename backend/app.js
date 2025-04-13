@@ -9,7 +9,7 @@ require("./conn/conn.js");
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173","https://podcaster-six-blush.vercel.app"],
     credentials: true,
   })
 );

@@ -10,7 +10,7 @@ const AllPodcasts = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get("http://localhost:1000/api/v1/podcast/get-podcasts");
+        const res = await axios.get("https://podcaster-api.vercel.app/api/v1/podcast/get-podcasts");
         setPodcasts(res.data.data);
       } catch (err) {
         console.error("Failed to fetch podcasts:", err);

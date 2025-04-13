@@ -12,7 +12,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUserPodcasts = async () => {
       try {
-        const res = await axios.get("http://localhost:1000/api/v1/podcast/get-user-podcasts", {
+        const res = await axios.get("https://podcaster-api.vercel.app/api/v1/podcast/get-user-podcasts", {
           withCredentials: true,
           
         });

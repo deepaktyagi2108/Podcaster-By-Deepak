@@ -37,7 +37,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/user/sign-in",
+        "https://podcaster-api.vercel.app/api/v1/user/sign-in",
         value,
         { withCredentials: true }
       );
@@ -66,7 +66,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/user/sign-in",
+        "https://podcaster-api.vercel.app/api/v1/user/sign-in",
         dummyCredentials,
         { withCredentials: true }
       );

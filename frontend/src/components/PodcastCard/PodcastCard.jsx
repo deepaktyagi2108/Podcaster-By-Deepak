@@ -32,8 +32,8 @@ const PodcastCard = ({ items, showFavorite = true }) => {
       return;
     }
 
-    dispatch(playerActions.changeSong(`http://localhost:1000/${items.audioFile}`));
-    dispatch(playerActions.changeImage(`http://localhost:1000/${items.frontImage}`));
+    dispatch(playerActions.changeSong(`https://podcaster-api.vercel.app/${items.audioFile}`));
+    dispatch(playerActions.changeImage(`https://podcaster-api.vercel.app/${items.frontImage}`));
     dispatch(playerActions.setDiv());
     dispatch(playerActions.startPlaying());
   };
@@ -73,7 +73,7 @@ const PodcastCard = ({ items, showFavorite = true }) => {
       <Link to={`/podcast/${items._id}`} className="flex flex-col gap-2">
         <div>
           <img
-            src={`http://localhost:1000/${items.frontImage}`}
+            src={`https://podcaster-api.vercel.app/${items.frontImage}`}
             className="rounded size-[42vh] object-cover"
             alt={items.title}
           />
