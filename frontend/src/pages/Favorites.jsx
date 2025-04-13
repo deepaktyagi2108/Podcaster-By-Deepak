@@ -12,7 +12,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get("https://podcaster-api.vercel.app/api/v1/podcast/get-podcasts");
+        const res = await axios.get("https://podcaster-api.onrender.com/api/v1/podcast/get-podcasts");
         setAllPodcasts(res.data.data);
       } catch (err) {
         console.error("Failed to fetch podcasts:", err);

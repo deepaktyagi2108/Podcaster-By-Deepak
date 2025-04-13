@@ -14,7 +14,7 @@ const YourPodcasts = ({ showFavorite = false }) => {
 
     const fetch = async () => {
       try {
-        const res = await axios.get("https://podcaster-api.vercel.app/api/v1/podcast/get-user-podcasts", {
+        const res = await axios.get("https://podcaster-api.onrender.com/api/v1/podcast/get-user-podcasts", {
           withCredentials: true,
         });
         setPodcasts(res.data.data);

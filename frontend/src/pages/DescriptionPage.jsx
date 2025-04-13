@@ -16,7 +16,7 @@ const DescriptionPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(
-        `https://podcaster-api.vercel.app/api/v1/podcast/get-podcast/${id}`,
+        `https://podcaster-api.onrender.com/api/v1/podcast/get-podcast/${id}`,
         { withCredentials: true }
       );
       setPodcasts(res.data.data);
@@ -46,8 +46,8 @@ const DescriptionPage = () => {
       return;
     }
 
-    dispatch(playerActions.changeSong(`https://podcaster-api.vercel.app/${Podcasts.audioFile}`));
-    dispatch(playerActions.changeImage(`https://podcaster-api.vercel.app/${Podcasts.frontImage}`));
+    dispatch(playerActions.changeSong(`https://podcaster-api.onrender.com/${Podcasts.audioFile}`));
+    dispatch(playerActions.changeImage(`https://podcaster-api.onrender.com/${Podcasts.frontImage}`));
     dispatch(playerActions.setDiv());
     dispatch(playerActions.startPlaying());
   };
@@ -60,7 +60,7 @@ const DescriptionPage = () => {
     <div className='px-4 lg:px-12 py-4 h-auto flex flex-col md:flex-row items-start justify-between gap-5'>
       <div className='w-full md:w-2/6 flex items-center justify-center md:justify-start md:items-start'>
         <img
-          src={`https://podcaster-api.vercel.app/${Podcasts.frontImage}`}
+          src={`https://podcaster-api.onrender.com/${Podcasts.frontImage}`}
           alt="Podcast"
           className='rounded w-full h-[50vh] object-cover shadow-md'
         />

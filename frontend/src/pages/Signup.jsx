@@ -39,7 +39,7 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post("https://podcaster-api.vercel.app/api/v1/user/sign-up", value, {
+      const res = await axios.post("https://podcaster-api.onrender.com/api/v1/user/sign-up", value, {
         withCredentials: true,
       });
 
