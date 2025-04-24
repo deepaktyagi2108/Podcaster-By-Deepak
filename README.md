@@ -32,12 +32,6 @@ Podcaster is a full-stack web application built with the **MERN stack** (MongoDB
 
 
 
----
 
----
-©️ Copyright
-© 2025 Deepak. All rights reserved.
-
-Unauthorized use and/or duplication of this material without express and written permission from this project’s author and/or owner is strictly prohibited.
 
 
