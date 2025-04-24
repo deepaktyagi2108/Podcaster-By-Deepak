@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { playerActions } from "../../store/player";
 import { FaHeart } from "react-icons/fa";
+import toast from "react-hot-toast";
 import {
   addFavorite,
   removeFavorite,
@@ -28,7 +29,7 @@ const PodcastCard = ({ items, showFavorite = true }) => {
     }
 
     if (!items.audioFile || !items.frontImage) {
-      alert("Audio or image missing for this podcast.");
+      toast.error("Audio or image missing for this podcast.");
       return;
     }
 
@@ -42,7 +43,7 @@ const PodcastCard = ({ items, showFavorite = true }) => {
     e.preventDefault();
 
     if (!isLoggedIn) {
-      alert("Please log in to favorite podcasts.");
+      toast.error("Please log in to favorite podcasts.");
       return;
     }
 

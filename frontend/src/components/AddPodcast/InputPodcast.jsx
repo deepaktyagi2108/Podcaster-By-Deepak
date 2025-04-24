@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import axios from "axios";
-
+import toast from "react-hot-toast";
 const InputPodcast = () => {
   const [frontImage, setFrontImage] = useState(null);
   const [audioFile, setAudioFile] = useState(null);
@@ -56,7 +56,7 @@ const InputPodcast = () => {
     e.preventDefault();
 
     if (!inputs.title || !inputs.description || !inputs.category || !frontImage || !audioFile) {
-      alert("All fields are required");
+      toast.error("Please fill all fields and upload files");
       return;
     }
 
@@ -80,13 +80,13 @@ const InputPodcast = () => {
       );
 
       if (res.status === 201) {
-        alert(res.data.message || "Podcast added successfully");
+        toast.error(res.data.message || "Podcast added successfully");
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        alert(error.response.data.message); // Show backend validation errors
+        toast.error(error.response.data.message); // Show backend validation errors
       } else {
-        alert("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setInputs({

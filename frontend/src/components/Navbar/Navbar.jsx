@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
-
+import toast from "react-hot-toast";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Navbar = () => {
     dispatch(authActions.logout());
     localStorage.removeItem("user");
     setMobileNav(false);
-    alert("Logged out successfully!");
+    toast.success("Logged out successfully!");
     setTimeout(() => navigate("/"), 1000);
   };
 
@@ -56,7 +56,7 @@ const Navbar = () => {
                   key={index}
                   onClick={() => {
                     if (!isLoggedIn) {
-                      alert("Please log in to view favorites.");
+                      toast.error("Please log in to view favorites.");
                       navigate("/login");
                     } else {
                       navigate(item.path);
@@ -153,7 +153,7 @@ const Navbar = () => {
                   onClick={() => {
                     setMobileNav(false);
                     if (!isLoggedIn) {
-                      alert("Please log in to view favorites.");
+                      toast.error("Please log in to view favorites.");
                       navigate("/login");
                     } else {
                       navigate(item.path);

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { playerActions } from "../store/player";
-
+import toast from "react-hot-toast";
 const DescriptionPage = () => {
   const { id } = useParams();
   const [Podcasts, setPodcasts] = useState(null);
@@ -42,7 +42,7 @@ const DescriptionPage = () => {
     }
 
     if (!Podcasts.audioFile || !Podcasts.frontImage) {
-      alert('Audio or image missing for this podcast.');
+      toast.error('Audio or image missing for this podcast.');
       return;
     }
 
@@ -91,7 +91,7 @@ const DescriptionPage = () => {
         {/* Optional Funny Button */}
         <button
           className='mt-4 ml-3 bg-yellow-200 hover:bg-yellow-300 text-black px-4 py-1 rounded-full text-sm'
-          onClick={() => alert("You’ve officially wasted 3.2 seconds of your life. Congrats! 🎉")}
+          onClick={() => toast.success("You’ve officially wasted 3.2 seconds of your life. Congrats! 🎉")}
         >
           Don't Click This
         </button>

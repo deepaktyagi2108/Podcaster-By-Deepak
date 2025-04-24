@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
-
+import toast from "react-hot-toast";
 
 import { Navigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ const Login = () => {
     setLoading(true);
 
     if (!isValidEmail(value.email)) {
-      alert("Please enter a valid email address");
+      toast.error("Please enter a valid email address");
       setLoading(false);
       return;
     }
@@ -44,12 +44,12 @@ const Login = () => {
 
       dispatch(authActions.login(res.data.user));
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert(res.data.message || "Login successful!");
+      toast.success(res.data.message || "Login successful!");
 
      
       setTimeout(() => navigate("/profile"), 1000);
     } catch (error) {
-      alert(error.response?.data?.error || "Something went wrong");
+      toast.error(error.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ const Login = () => {
 
       dispatch(authActions.login(res.data.user));
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert(res.data.message || "Login successful!");
+      toast.success(res.data.message || "Login successful!");
 
       setTimeout(() => navigate("/profile"), 1000);
     } catch (error) {
-      alert(error.response?.data?.error || "Something went wrong");
+      toast.error(error.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
     }

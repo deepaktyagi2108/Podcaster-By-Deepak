@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
@@ -34,7 +34,7 @@ const Signup = () => {
     e.preventDefault();
 
     if (!isValidEmail(value.email)) {
-      alert("Please enter a valid email address");
+      toast.error("Please enter a valid email address");
       return;
     }
 
@@ -44,10 +44,10 @@ const Signup = () => {
       });
 
       dispatch(authActions.login(res.data.user)); // auto login
-      alert("Signup successful!");
+      toast.success("Signup successful!");
       setTimeout(() => navigate("/profile"), 1000);
     } catch (error) {
-      alert(error.response?.data?.error || "Signup failed");
+    toast,error(error.response?.data?.error || "Signup failed");
     }
   };
 
