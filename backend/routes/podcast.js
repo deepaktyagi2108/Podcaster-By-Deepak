@@ -1,58 +1,9 @@
-
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const upload = require("../middleware/multer");
 const Podcast = require("../models/podcast");
 const Category = require("../models/category");
 const User = require("../models/user");
-
-// router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
-//   try {
-//     const { title, description, category } = req.body;
-
-//     const frontImage = req.files?.["frontImage"]?.[0]?.path;
-//     const audioFile = req.files?.["audioFile"]?.[0]?.path;
-
-//     if (!title || !description || !category || !frontImage || !audioFile) {
-//       return res.status(400).json({ message: "All fields are required" });
-//     }
-
-//     const { user } = req;
-//     console.log("Received category:", category);
-//     const cat = await Category.findOne({ 
-     
-//       categoryName: { $regex: `^${category}$`, $options: "i" }
-//     });
-
-//     if (!cat) {
-//       return res.status(400).json({ message: "No category found" });
-//     }
-
-//     const newPodcast = new Podcast({
-//       title,
-//       description,
-//       category: cat._id,
-//       frontImage,
-//       audioFile,
-//       user: user._id,
-//     });
-
-//     await newPodcast.save();
-
-//     await Category.findByIdAndUpdate(cat._id, {
-//       $push: { podcasts: newPodcast._id },
-//     });
-
-//     await User.findByIdAndUpdate(user._id, {
-//       $push: { podcasts: newPodcast._id },
-//     });
-
-//     return res.status(201).json({ message: "Podcast added successfully" });
-//   } catch (error) {
-//     console.error("Upload Error:", error);
-//     return res.status(500).json({ message: "Failed to add podcast" });
-//   }
-// });
 router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
   try {
     const { title, description, category } = req.body;
@@ -138,7 +89,7 @@ router.get("/get-podcasts",async(req,res)=>{
         .sort({createdAt: -1});
         return res.status(200).json({data:podcasts})
     } catch (error) {
-        return res.status(407).json({message:"Internal server"});
+        return res.status(500).json({message:"Internal server"});
         
     }
 })
@@ -158,7 +109,7 @@ router.get("/get-user-podcasts",authMiddleware,async(req,res)=>{
     console.log(data)
         return res.status(200).json({data:data.podcasts })
     } catch (error) {  console.log(error);
-        return res.status(407).json({message:"Internal server"});
+        return res.status(500).json({message:"Internal server"});
       
         
     }
@@ -200,6 +151,40 @@ router.get("/category/:cat",async(req,res)=>{
         return res.status(407).json({message:"Internal server"});
         
     }
+})
+//delete podcasts
+const fs = require("fs");
+const path = require("path");
+router.delete("/delete-podcasts/:id",authMiddleware,async(req,res)=>{
+  console.log("DELETE route hit");
+  try{
+    const podcastId=req.params.id
+    const podcast=await Podcast.findById(podcastId);
+    if(!podcast){
+     return  res.status(400).json({message:"Not Found"})
+    }
+    if(podcast.user.toString()!==req.user._id.toString()){
+      return res.status(400).json({message:"Not authorized"})
+    }
+    if (podcast.audioFile && fs.existsSync(podcast.audioFile)) {
+      fs.unlinkSync(podcast.audioFile);
+    }
+     if (podcast.frontImage && fs.existsSync(podcast.frontImage)) {
+      fs.unlinkSync(podcast.frontImage);
+    }
+    await Category.findByIdAndUpdate(podcast.category, {
+      $pull: { podcasts: podcast._id },
+    });
+    await User.findByIdAndUpdate(podcast.user, {
+      $pull: { podcasts: podcast._id },
+    });
+    await Podcast.findByIdAndDelete(podcastId);
+    return res.status(200).json({message:"DEleted Successfully"});
+  }
+  catch(error){
+    console.log("Deleted Error :",error)
+    return res.status(400).json({message:"Unable to delete"})
+  }
 })
 
 

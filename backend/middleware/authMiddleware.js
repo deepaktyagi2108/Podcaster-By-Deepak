@@ -7,6 +7,9 @@ const authMiddleware = async (req, res, next) => {
     const token = req.cookies.podcasterUserToken;
    
     let user;
+    if (!token) {
+  return res.status(401).json({ message: "No token, authorization denied" });
+}
 
     if (token) {
       const decode = jwt.verify(token, process.env.JWT_SECRET);

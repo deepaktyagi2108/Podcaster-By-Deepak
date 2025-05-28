@@ -26,7 +26,7 @@ router.post("/add-category", async (req, res) => {
 });
 
 
-// router.getPod
+
 
 // Remove category
 router.delete("/remove-category", async (req, res) => {

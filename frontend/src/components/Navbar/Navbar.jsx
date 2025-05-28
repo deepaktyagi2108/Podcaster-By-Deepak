@@ -41,7 +41,7 @@ const Navbar = () => {
           />
           <Link
             to="/"
-            className="text-2xl font-bold tracking-tight text-black hover:text-gray-700 transition"
+            className="text-2xl font-bold tracking-tight text-black hover:text-gray-400 transition"
           >
             Podcaster
           </Link>

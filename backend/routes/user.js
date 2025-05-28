@@ -40,7 +40,7 @@ router.post("/sign-up", async (req, res) => {
       httpOnly: true,
       secure: false, // set to true in production (https)
       sameSite: "lax",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 1
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 d 
     });
 
     return res.status(201).json({ user: newUser });

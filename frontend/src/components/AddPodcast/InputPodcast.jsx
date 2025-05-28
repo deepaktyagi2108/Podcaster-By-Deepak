@@ -9,7 +9,7 @@ const InputPodcast = () => {
   const [dragging, setDragging] = useState(false);
   const [inputs, setInputs] = useState({
     title: "",
-    description: "",
+    description: "",//all inityials are null
     category: "",
   });
 
@@ -18,6 +18,10 @@ const InputPodcast = () => {
   const handleChangeImage = (e) => {
     const file = e.target.files[0];
     setFrontImage(file);
+  };
+   const handleAudioFile = (e) => {
+    const file = e.target.files[0];
+    setAudioFile(file);
   };
 
   const handleDragEnter = (e) => {
@@ -42,10 +46,7 @@ const InputPodcast = () => {
     setFrontImage(file);
   };
 
-  const handleAudioFile = (e) => {
-    const file = e.target.files[0];
-    setAudioFile(file);
-  };
+ 
 
   const onChangeInputs = (e) => {
     const { name, value } = e.target;
@@ -80,7 +81,7 @@ const InputPodcast = () => {
       );
 
       if (res.status === 201) {
-        toast.error(res.data.message || "Podcast added successfully");
+        toast.success(res.data.message || "Podcast added successfully");
       }
     } catch (error) {
       if (error.response?.data?.message) {
