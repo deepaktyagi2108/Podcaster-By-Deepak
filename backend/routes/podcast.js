@@ -78,6 +78,20 @@ router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
     return res.status(500).json({ message: "Failed to add podcast" });
   }
 });
+// Get all podcasts (for home or explore page)
+router.get("/get-podcasts", async (req, res) => {
+  try {
+    const podcasts = await Podcast.find({})
+      .sort({ createdAt: -1 }) // optional: newest first
+      .populate("category")
+      .populate("user", "name"); // optional: show user name
+
+    return res.status(200).json({ data: podcasts });
+  } catch (error) {
+    console.error("Error fetching all podcasts:", error);
+    return res.status(500).json({ message: "Failed to fetch podcasts" });
+  }
+});
 
 
 
