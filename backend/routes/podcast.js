@@ -187,5 +187,24 @@ router.delete("/delete-podcasts/:id",authMiddleware,async(req,res)=>{
   }
 })
 
+// search podcasts by title
+
+router.get("/search", async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    const results = await Podcast.find({
+      title: { $regex: query, $options: "i" },
+    }).populate("category");
+
+    res.status(200).json({ data: results });
+  } catch (error) {
+    console.error("Search Error:", error);
+    res.status(500).json({ message: "Failed to search podcasts" });
+  }
+});
+
+
+
 
 module.exports=router
