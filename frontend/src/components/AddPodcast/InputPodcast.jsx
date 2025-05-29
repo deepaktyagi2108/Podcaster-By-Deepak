@@ -217,7 +217,7 @@ const InputPodcast = () => {
           <div className="mt-8">
             <button
               type="submit"
-              className="bg-zinc-800 w-full text-white rounded-md px-8 py-3 font-semibold hover:bg-zinc-900 transition-all duration-300 shadow-md hover:shadow-lg"
+              className="bg-zinc-800 w-full text-white rounded-md px-8 py-3 font-semibold hover:bg-zinc-900 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer"
             >
               Create Podcast
             </button>
