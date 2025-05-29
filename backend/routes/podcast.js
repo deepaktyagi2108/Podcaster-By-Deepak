@@ -266,19 +266,18 @@
 
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const upload = require("../middleware/multer");
+const upload = require("../middleware/multer"); // multer middleware configured with upload.fields()
 const Podcast = require("../models/podcast");
 const Category = require("../models/category");
 const User = require("../models/user");
-const fs = require("fs");
 
-// ➤ Add a podcast
 router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
   try {
     const { title, description, category } = req.body;
 
-    const frontImageUrl = req.files?.["frontImage"]?.[0]?.path || req.files?.["frontImage"]?.[0]?.secure_url;
-    const audioFileUrl = req.files?.["audioFile"]?.[0]?.path || req.files?.["audioFile"]?.[0]?.secure_url;
+    // Cloudinary storage puts the URL in req.files[fieldname][0].path
+    const frontImageUrl = req.files?.frontImage?.[0]?.path;
+    const audioFileUrl = req.files?.audioFile?.[0]?.path;
 
     if (!title || !description || !category || !frontImageUrl || !audioFileUrl) {
       return res.status(400).json({ message: "All fields are required" });
@@ -319,6 +318,10 @@ router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
     return res.status(500).json({ message: "Failed to add podcast" });
   }
 });
+
+
+
+
 
 // ➤ Get all podcasts
 router.get("/get-podcasts", async (req, res) => {
