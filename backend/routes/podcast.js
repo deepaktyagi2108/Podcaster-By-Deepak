@@ -154,6 +154,20 @@ router.get("/search", async (req, res) => {
     res.status(500).json({ message: "Failed to search podcasts" });
   }
 });
+router.get("/get-user-podcasts", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Find podcasts belonging to the logged-in user
+    const userPodcasts = await Podcast.find({ user: userId }).populate("category");
+
+    return res.status(200).json({ data: userPodcasts });
+  } catch (error) {
+    console.error("Error fetching user podcasts:", error);
+    return res.status(500).json({ message: "Failed to fetch user podcasts" });
+  }
+});
+
 
 
 
