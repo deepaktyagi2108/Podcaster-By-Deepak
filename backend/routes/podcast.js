@@ -42,7 +42,7 @@ router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
       });
     }
 
-    Create new podcast
+    
     const newPodcast = new Podcast({
       title,
       description,
