@@ -28,7 +28,6 @@ const DescriptionPage = () => {
   const funnyLines = [
     "🎙️ Warning: May cause spontaneous air-guitar solos.",
     "💡 Listening level: 9000 IQ.",
-    "🔥 Hotter than your ex's mixtape.",
     "🧠 Brain cells will be doing backflips.",
     "🕵️ Fun fact: Aliens might be tuning in too.",
     "🐸 Side effect: You might become mysteriously cooler.",
