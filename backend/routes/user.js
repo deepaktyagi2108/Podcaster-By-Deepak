@@ -33,14 +33,14 @@ router.post("/sign-up", async (req, res) => {
 
     console.log('JWT_SECRET:', process.env.JWT_SECRET);
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "30d",
     });
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // set to true in production (https)
       sameSite: "lax",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 d 
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 1 d 
     });
 
     return res.status(201).json({ user: newUser });
