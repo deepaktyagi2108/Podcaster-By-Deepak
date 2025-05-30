@@ -100,23 +100,42 @@ router.get("/get-podcasts", async (req, res) => {
     
 
 //get podcasts by categories
-router.get("/category/:cat",async(req,res)=>{
-    try {
-        const {cat}=req.params;
-        const categories=await Category.find({categoryName:cat}).populate(
-            {path:"podcasts",
-            populate:{path:"category"}
-        });
-        let podcasts=[];
-        categories.forEach((category)=>{
-            podcasts=[...podcasts,...category.podcasts];
-        })
-        return res.status(200).json({data:podcasts})
-    } catch (error) {
-        return res.status(407).json({message:"Internal server"});
+// router.get("/category/:cat",async(req,res)=>{
+//     try {
+//         const {cat}=req.params;
+//         const categories=await Category.find({categoryName:cat}).populate(
+//             {path:"podcasts",
+//             populate:{path:"category"}
+//         });
+//         let podcasts=[];
+//         categories.forEach((category)=>{
+//             podcasts=[...podcasts,...category.podcasts];
+//         })
+//         return res.status(200).json({data:podcasts})
+//     } catch (error) {
+//         return res.status(407).json({message:"Internal server"});
         
+//     }
+// })
+router.get("/category/:cat", async (req, res) => {
+  try {
+    const { cat } = req.params;
+
+    // Find the category document by categoryName string
+    const category = await Category.findOne({ categoryName: cat });
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
     }
-})
+
+    // Find podcasts where category field equals category._id
+    const podcasts = await Podcast.find({ category: category._id }).populate("category");
+
+    return res.status(200).json({ data: podcasts });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 //delete podcasts
 const fs = require("fs");
 const path = require("path");
