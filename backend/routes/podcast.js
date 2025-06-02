@@ -191,5 +191,15 @@ router.get("/get-podcast/:id", async (req, res) => {
   }
 });
 
+router.get("/get-podcasts", async (req, res) => {
+  try {
+    const podcasts = await Podcast.find().populate("category");
+    return res.status(200).json({ data: podcasts });
+  } catch (error) {
+    console.error("Error fetching podcasts:", error);
+    return res.status(500).json({ message: "Failed to fetch podcasts" });
+  }
+});
+
 
 module.exports = router;
