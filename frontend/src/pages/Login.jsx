@@ -6,7 +6,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import toast from "react-hot-toast";
-
+import { BASE_URL } from "../utils/constants";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
@@ -37,7 +37,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://podcaster-api.onrender.com/api/v1/user/sign-in",
+        `${BASE_URL}/user/sign-in`,
         value,
         { withCredentials: true }
       );
@@ -66,7 +66,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://podcaster-api.onrender.com/api/v1/user/sign-in",
+        `${BASE_URL}/user/sign-in`,
         dummyCredentials,
         { withCredentials: true }
       );

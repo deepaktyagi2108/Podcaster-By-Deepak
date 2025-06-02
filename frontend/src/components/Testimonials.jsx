@@ -15,7 +15,7 @@ const testimonials = [
     linkedin: "https://www.linkedin.com/in/vikas-kumar-kaushal-80b5bb28a/"
   },
   {
-    name: "Deepak ",
+    name: "Sparsh Khandelwal ",
     role: "Student",
     quote: "I discovered so many useful podcasts for learning!",
     linkedin: "https://www.linkedin.com/in/sparsh-kh23/"

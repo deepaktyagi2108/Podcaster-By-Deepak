@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { BASE_URL } from "../utils/constants"
 import { playerActions } from "../store/player";
 import toast from "react-hot-toast";
 const DescriptionPage = () => {
@@ -16,7 +17,7 @@ const DescriptionPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(
-        `https://podcaster-api.onrender.com/api/v1/podcast/get-podcast/${id}`,
+        `${BASE_URL}/podcast/get-podcast/${id}`,
         { withCredentials: true }
       );
       setPodcasts(res.data.data);
@@ -45,8 +46,8 @@ const DescriptionPage = () => {
       return;
     }
 
-    dispatch(playerActions.changeSong(`https://podcaster-api.onrender.com/${Podcasts.audioFile}`));
-    dispatch(playerActions.changeImage(`https://podcaster-api.onrender.com/${Podcasts.frontImage}`));
+    dispatch(playerActions.changeSong(`${Podcasts.audioFile}`));
+    dispatch(playerActions.changeImage(`${Podcasts.frontImage}`));
     dispatch(playerActions.setDiv());
     dispatch(playerActions.startPlaying());
   };
@@ -59,7 +60,7 @@ const DescriptionPage = () => {
     <div className='px-4 lg:px-12 py-4 h-auto flex flex-col md:flex-row items-start justify-between gap-5'>
       <div className='w-full md:w-2/6 flex items-center justify-center md:justify-start md:items-start'>
         <img
-          src={`https://podcaster-api.onrender.com/${Podcasts.frontImage}`}
+          src={`${Podcasts.frontImage}`}
           alt="Podcast"
           className='rounded w-full h-[50vh] object-cover shadow-md'
         />

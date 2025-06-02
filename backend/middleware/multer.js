@@ -1,80 +1,33 @@
-// const multer = require("multer");
-// const path = require("path");
-
-
-// const storage = multer.diskStorage({
-// destination: (req, file, cb) => {
-//  cb(null, "uploads/");
-//  },
-//  filename: (req, file, cb) => {
-//  cb(null, ${Date.now()}-${file.originalname});
-//  },
-// });
-
-// // File filter (optional: only allow images/audio)
-// const fileFilter = (req, file, cb) => {
-//  const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-//  const allowedAudioTypes = ["audio/mpeg", "audio/wav", "audio/mp3", "audio/x-wav", "audio/x-m4a", "audio/aac", "audio/ogg"];
-
-//  if (
-//  (file.fieldname === "frontImage" && allowedImageTypes.includes(file.mimetype)) ||
-//  (file.fieldname === "audioFile" && allowedAudioTypes.includes(file.mimetype))
-//  ) {
-//  cb(null, true);
-//  } else {
-//  cb(new Error("Invalid file type"), false);
-//  }
-// };
-
-// // Initialize upload
-// const upload = multer({
-// storage,
-//  fileFilter,
-// }).fields([
-//  { name: "frontImage", maxCount: 1 },
-//  { name: "audioFile", maxCount: 1 
-// },
-// ]);
-
-// module.exports = upload;
-
-// middleware/multer.js
 const multer = require("multer");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../utils/cloudinary");
 
-// Storage configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    if (file.fieldname === "frontImage") {
+      return {
+        folder: "podcaster/images",
+        resource_type: "image",
+        allowed_formats: ["jpg", "jpeg", "png"],
+      };
+    }
+
+    if (file.fieldname === "audioFile") {
+      return {
+        folder: "podcaster/audios",
+        resource_type: "video", 
+        allowed_formats: ["mp3", "wav", "m4a"],
+      };
+    }
+
+    throw new Error("Invalid field name");
   },
 });
 
-// File filter: allow only specific image and audio MIME types
-const fileFilter = (req, file, cb) => {
-  const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-  const allowedAudioTypes = [
-    "audio/mpeg", "audio/wav", "audio/mp3",
-    "audio/x-wav", "audio/x-m4a", "audio/aac", "audio/ogg"
-  ];
 
-  if (
-    (file.fieldname === "frontImage" && allowedImageTypes.includes(file.mimetype)) ||
-    (file.fieldname === "audioFile" && allowedAudioTypes.includes(file.mimetype))
-  ) {
-    cb(null, true);
-  } else {
-    cb(new Error("Invalid file type"), false);
-  }
-};
-
-// Final upload middleware
-const upload = multer({
-  storage,
-  fileFilter,
-}).fields([
+const upload = multer({ storage }).fields([
   { name: "frontImage", maxCount: 1 },
   { name: "audioFile", maxCount: 1 },
 ]);

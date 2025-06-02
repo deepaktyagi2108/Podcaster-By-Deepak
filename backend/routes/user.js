@@ -40,7 +40,7 @@ router.post("/sign-up", async (req, res) => {
       httpOnly: true,
       secure: false, // set to true in production (https)
       sameSite: "lax",
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 1 d 
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 d 
     });
 
     return res.status(201).json({ user: newUser });
@@ -79,8 +79,8 @@ router.post("/sign-in", async (req, res) => {
     res.cookie("podcasterUserToken", token, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
-       secure: process.env.NODE_ENV === "production",
-       sameSite: "None",
+       secure: false,
+       sameSite: "lax",
     
     });
 
@@ -103,7 +103,7 @@ router.post("/sign-in", async (req, res) => {
 router.post("/logout", async (req, res) => {
   res.clearCookie("podcasterUserToken", {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "None",
     path: "/",
   });

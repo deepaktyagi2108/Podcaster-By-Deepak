@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../utils/constants";
 const InputPodcast = () => {
   const [frontImage, setFrontImage] = useState(null);
   const [audioFile, setAudioFile] = useState(null);
@@ -70,7 +71,7 @@ const InputPodcast = () => {
 
     try {
       const res = await axios.post(
-        "https://podcaster-api.onrender.com/api/v1/podcast/add-podcast",
+        `${BASE_URL}/podcast/add-podcast`,
         data,
         {
           headers: {

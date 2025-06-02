@@ -14,7 +14,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
   const [deleting, setDeleting] = useState(false);
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const token = useSelector((state) => state.auth.token);
+  // const token = useSelector((state) => state.auth.token);
   const favorites = useSelector((state) => state.favorites.items);
 
   const isFavorited = favorites.includes(items._id);
@@ -35,12 +35,12 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
 
     dispatch(
       playerActions.changeSong(
-        `https://podcaster-api.onrender.com/${items.audioFile}`
+        `${items.audioFile}`
       )
     );
     dispatch(
       playerActions.changeImage(
-        `https://podcaster-api.onrender.com/${items.frontImage}`
+        `${items.frontImage}`
       )
     );
     dispatch(playerActions.setDiv());
@@ -127,7 +127,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
       <Link to={`/podcast/${items._id}`} className="flex flex-col gap-2">
         <div>
           <img
-            src={`https://podcaster-api.onrender.com/${items.frontImage}`}
+            src={`${items.frontImage}`}
             className="rounded size-[42vh] object-cover"
             alt={items.title}
           />
