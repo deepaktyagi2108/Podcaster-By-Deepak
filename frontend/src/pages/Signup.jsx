@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import { Navigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
  
 
@@ -39,7 +40,7 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post("https://podcaster-api.onrender.com/api/v1/user/sign-up", value, {
+      const res = await axios.post(`${BASE_URL}/user/sign-up`, value, {
         withCredentials: true,
       });
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PodcastCard from '../components/PodcastCard/PodcastCard';
+import { BASE_URL } from '../utils/constants';
 const CategoriesPage = () => {
     const  {cat}=useParams();
     const [Podcasts, setPodcasts] = useState();
@@ -9,7 +10,7 @@ const CategoriesPage = () => {
     useEffect(() => {
       const fetch = async () => {
        
-          const res = await axios.get(`https://podcaster-api.onrender.com/api/v1/podcast/category/${cat}`,
+          const res = await axios.get(`${BASE_URL}/podcast/category/${cat}`,
             {withCredentials:true});
           setPodcasts(res.data.data);
   };

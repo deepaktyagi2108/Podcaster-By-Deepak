@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 
@@ -7,10 +6,13 @@ const cors = require("cors");
 require("dotenv").config();
 require("./conn/conn.js");
 
-
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://podcaster-six-blush.vercel.app" , "https://podcaster-api.onrender.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://podcaster-six-blush.vercel.app",
+      "https://podcaster-api.onrender.com",
+    ],
     credentials: true,
   })
 );
@@ -36,9 +38,4 @@ app.listen(process.env.PORT, () => {
   console.log(`Server is running on: ${process.env.PORT}`);
 });
 
-
-
-module.exports=app;
-
-
-
+module.exports = app;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PodcastCard from "../components/PodcastCard/PodcastCard";
+import { BASE_URL } from "../utils/constants";
 
 const AllPodcasts = () => {
   const [podcasts, setPodcasts] = useState([]);
@@ -10,8 +11,8 @@ const AllPodcasts = () => {
   const fetchPodcasts = async () => {
     try {
       const endpoint = search
-        ? `https://podcaster-api.onrender.com/api/v1/podcast/search?query=${search}`
-        : `https://podcaster-api.onrender.com/api/v1/podcast/get-podcasts`;
+        ? `${BASE_URL}/podcast/search?query=${search}`
+        : `${BASE_URL}/podcast/get-podcasts`;
 
       const res = await axios.get(endpoint);
       setPodcasts(res.data.data);

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PodcastCard from "../components/PodcastCard/PodcastCard";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Favorites = () => {
   const favoriteIds = useSelector((state) => state.favorites.items);
@@ -12,7 +13,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get("https://podcaster-api.onrender.com/api/v1/podcast/get-podcasts");
+        const res = await axios.get(`${BASE_URL}/podcast/get-podcasts`);
         setAllPodcasts(res.data.data);
       } catch (err) {
         console.error("Failed to fetch podcasts:", err);

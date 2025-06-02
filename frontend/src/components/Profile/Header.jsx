@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user);
@@ -12,7 +13,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUserPodcasts = async () => {
       try {
-        const res = await axios.get("https://podcaster-api.onrender.com/api/v1/podcast/get-user-podcasts", {
+        const res = await axios.get(`${BASE_URL}/podcast/get-user-podcasts`, {
           withCredentials: true,
           
         });

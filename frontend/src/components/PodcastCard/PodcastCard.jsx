@@ -7,7 +7,7 @@ import { playerActions } from "../../store/player";
 import { FaHeart } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { addFavorite, removeFavorite } from "../../store/favorites";
-
+import { BASE_URL } from "../../utils/constants";
 const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
 
     try {
      const response = await fetch(
-  `https://podcaster-api.onrender.com/api/v1/podcast/delete-podcasts/${items._id}`,
+  `${BASE_URL}/podcast/delete-podcasts/${items._id}`,
   {
     method: "DELETE",
     headers: {
