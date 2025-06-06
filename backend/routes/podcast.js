@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
-// const upload = require("../middleware/multer");
+
 const upload = require("../middleware/multer");
 const Podcast = require("../models/podcast");
 const Category = require("../models/category");
@@ -161,7 +161,8 @@ router.get("/search", async (req, res) => {
   }
 });
 //user specific
-router.get("/get-user-podcasts", authMiddleware, async (req, res) => {
+router.get("/get-user-podcasts",async (req, res) => {
+  console.log("GET /get-user-podcasts called");
   try {
     const userId = req.user._id;
 
@@ -200,6 +201,4 @@ router.get("/get-podcasts", async (req, res) => {
     return res.status(500).json({ message: "Failed to fetch podcasts" });
   }
 });
-
-
 module.exports = router;
