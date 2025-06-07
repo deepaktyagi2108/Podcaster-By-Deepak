@@ -4,6 +4,9 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
+
+
+//sign up
 router.post("/sign-up", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -36,10 +39,10 @@ router.post("/sign-up", async (req, res) => {
       expiresIn: "30d",
     });
 
-    res.cookie("token", token, {
+    res.cookie("podcasterUserToken", token, {
       httpOnly: true,
-      secure: false, // set to true in production (https)
-      sameSite: "lax",
+      secure: true, // set to true in production (https)
+      sameSite: "none",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 d 
     });
 
@@ -79,8 +82,8 @@ router.post("/sign-in", async (req, res) => {
     res.cookie("podcasterUserToken", token, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
-       secure: false,
-       sameSite: "lax",
+       secure: true,
+       sameSite: "none",
     
     });
 
@@ -103,8 +106,8 @@ router.post("/sign-in", async (req, res) => {
 router.post("/logout", async (req, res) => {
   res.clearCookie("podcasterUserToken", {
     httpOnly: true,
-    secure: false,
-    sameSite: "None",
+    secure: true,
+    sameSite: "none",
     path: "/",
   });
   res.json({ message: "Logged out successfully" });

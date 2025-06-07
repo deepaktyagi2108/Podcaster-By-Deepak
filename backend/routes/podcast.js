@@ -161,7 +161,7 @@ router.get("/search", async (req, res) => {
   }
 });
 //user specific
-router.get("/get-user-podcasts",async (req, res) => {
+router.get("/get-user-podcasts",authMiddleware,async (req, res) => {
   console.log("GET /get-user-podcasts called");
   try {
     const userId = req.user._id;
