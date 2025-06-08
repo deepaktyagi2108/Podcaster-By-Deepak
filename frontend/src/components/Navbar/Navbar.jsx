@@ -34,11 +34,13 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-4">
+          <Link to ="/">
           <img
             src="https://cdn-icons-png.flaticon.com/128/9043/9043096.png"
             alt="podcaster"
             className="h-10"
           />
+          </Link>
           <Link
             to="/"
             className="text-2xl font-bold tracking-tight text-black hover:text-gray-400 transition"
