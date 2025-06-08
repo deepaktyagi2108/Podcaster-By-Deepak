@@ -11,13 +11,13 @@ const testimonials = [
   {
     name: "Vikas Kumar Kaushal",
     role: "Student",
-    quote: "Finally, one place to listen to everything I love!",
+    quote: "All my favorites, all in one place—at last!",
     linkedin: "https://www.linkedin.com/in/vikas-kumar-kaushal-80b5bb28a/"
   },
   {
     name: "Sparsh Khandelwal ",
     role: "Student",
-    quote: "I discovered so many useful podcasts for learning!",
+    quote:"I discovered so many useful podcasts for learning!",
     linkedin: "https://www.linkedin.com/in/sparsh-kh23/"
   }
 ];
