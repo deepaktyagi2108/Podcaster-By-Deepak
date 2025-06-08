@@ -38,14 +38,28 @@ const AllPodcasts = () => {
   return (
     <div className="w-full lg:px-12 py-4">
       <div className="mb-6 flex justify-center">
-        <input
+        {/* <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Search podcasts by title..."
           className="w-full max-w-md px-4 py-2 border rounded-xl shadow-sm focus:outline-none"
-        />
+        /> */}
+        <input
+  type="text"
+  value={inputValue}
+  onChange={(e) => {
+    const val = e.target.value;
+    setInputValue(val);
+    if (val.trim() === "") {
+      setSearch(""); // Reset search when input is cleared
+    }
+  }}
+  onKeyDown={handleKeyDown}
+  placeholder="Search podcasts by title..."
+  className="w-full max-w-md px-4 py-2 border rounded-xl shadow-sm focus:outline-none"
+/>
       </div>
 
       {podcasts.length === 0 ? (

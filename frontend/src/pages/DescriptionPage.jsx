@@ -80,7 +80,7 @@ const DescriptionPage = () => {
           🎧 Category: {Podcasts.category.categoryName}
         </div>
 
-        {/* 🟢 New Stylish Play Now Button */}
+       
         <button
           onClick={handlePlay}
           className="mt-6 bg-gradient-to-r from-green-600 to-emerald-500 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 text-lg font-semibold flex items-center gap-2"
