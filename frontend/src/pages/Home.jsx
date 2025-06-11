@@ -4,8 +4,6 @@
 // import Testimonials from '../components/Testimonials';
 // import DeveloperInfo from '../components/Footer/DeveloperInfo'; // ✅ Import here
 
-
-
 // export const Home = () => {
 //   return (
 //     <>
@@ -59,62 +57,68 @@
 
 //       <WhyPodcaster />
 //       <Testimonials />
-//       <DeveloperInfo /> 
+//       <DeveloperInfo />
 //     </>
 //   );
 // };
 
 // export default Home;
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux"; // ✅ Import Redux selector
-import WhyPodcaster from '../components/WhyPodcaster';
-import Testimonials from '../components/Testimonials';
-import DeveloperInfo from '../components/Footer/DeveloperInfo';
+import WhyPodcaster from "../components/WhyPodcaster";
+import Testimonials from "../components/Testimonials";
+import DeveloperInfo from "../components/Footer/DeveloperInfo";
 
 export const Home = () => {
   const user = useSelector((state) => state.auth.user); // ✅ Access user from Redux
 
   return (
     <>
-      <div className='bg-green-100 px-12 min-h-screen flex flex-col items-center justify-center'>
-        <div className='w-full flex items-center justify-between gap-4'>
-          <div className='w-full lg:w-5/6'>
-            <h1 className='text-4xl md:text-6xl font-bold'>
+      <div className="bg-green-100 px-12 min-h-screen flex flex-col items-center justify-center">
+        <div className="w-full flex items-center justify-between gap-4">
+          <div className="w-full lg:w-5/6">
+            <h1 className="text-4xl md:text-6xl font-bold">
               Create & listen to the <br />
-              <span className='flex items-end'>
+              <span className="flex items-end">
                 p
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/2113/2113324.png"
                   alt="Headphones"
-                  className='h-10 md:12 lg:h-20 mx-2'
+                  className="h-10 md:12 lg:h-20 mx-2"
                 />
                 dcast
               </span>
             </h1>
           </div>
 
-          <div className='hidden lg:block w-1/6'>
+          <div className="hidden lg:block w-1/6">
             <div
-              onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
-              className='py-4 border border-black text-xl font-semibold rounded-full text-center -rotate-90 cursor-pointer'
+              onClick={() =>
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                })
+              }
+              className="py-4 border border-black text-xl font-semibold rounded-full text-center -rotate-90 cursor-pointer"
             >
               Scroll Down
             </div>
           </div>
         </div>
 
-        <div className='mt-12 w-full flex flex-col lg:flex-row items-end justify-between'>
+        <div className="mt-12 w-full flex flex-col lg:flex-row items-end justify-between">
           <div>
-            <p className='text-xl font-semibold'>
-              Listen to the most popular podcasts on just one platform - <b>PODCASTER</b>
+            <p className="text-xl font-semibold">
+              Listen to the most popular podcasts on just one platform -{" "}
+              <b>PODCASTER</b>
             </p>
             <br />
 
             {/* ✅ Show login button only if NOT logged in */}
             {!user && (
               <Link to="/login">
-                <button className='px-6 py-4 bg-green-900 text-white font-semibold rounded-full mt-8 cursor-pointer'>
+                <button className="px-6 py-4 bg-green-900 text-white font-semibold rounded-full mt-8 cursor-pointer">
                   Login to listen
                 </button>
               </Link>
@@ -122,7 +126,7 @@ export const Home = () => {
           </div>
 
           <div>
-            <p className='text-zinc-600 font-bold'>
+            <p className="text-zinc-600 font-bold">
               Our app contains more than 200 podcasts for you
             </p>
           </div>
@@ -137,6 +141,3 @@ export const Home = () => {
 };
 
 export default Home;
-
-
-

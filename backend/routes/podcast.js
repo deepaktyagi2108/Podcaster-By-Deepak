@@ -177,6 +177,7 @@ router.get("/get-user-podcasts",authMiddleware,async (req, res) => {
     return res.status(500).json({ message: "Failed to fetch user podcasts" });
   }
 });
+//search by id
 router.get("/get-podcast/:id", async (req, res) => {
   try {
     const podcast = await Podcast.findById(req.params.id).populate("category");
@@ -191,7 +192,7 @@ router.get("/get-podcast/:id", async (req, res) => {
     return res.status(500).json({ message: "Server Error" });
   }
 });
-
+//get all podcast
 router.get("/get-podcasts", async (req, res) => {
   try {
     const podcasts = await Podcast.find().populate("category");
@@ -201,4 +202,30 @@ router.get("/get-podcasts", async (req, res) => {
     return res.status(500).json({ message: "Failed to fetch podcasts" });
   }
 });
+//api for updation
+router.put("/update-podcast/:id",authMiddleware,async(req,res)=>{
+  try {
+    const {title,description}=req.body;//body is object
+    const podcastId=req.params.id;
+    const podcast=await Podcast.findById(podcastId);
+    if(!podcast){
+      return res.status(404).json({message:"Podcast Not Found"})
+    }
+    //only update podcast for owner
+    if (podcast.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    if (!title && !description) {
+  return res.status(400).json({ message: "No update fields provided" });
+}
+
+    //update the fields
+    podcast.title=title||podcast.title;
+    podcast.description=description||podcast.description;
+    await podcast.save();
+    res.status(200).json({ message: "Podcast updated", podcast });
+  } catch (error) {
+    res.status(500).json({ message:"Internal Server Error" });
+  }
+})
 module.exports = router;

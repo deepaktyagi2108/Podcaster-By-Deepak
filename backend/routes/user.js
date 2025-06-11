@@ -41,8 +41,8 @@ router.post("/sign-up", async (req, res) => {
 
     res.cookie("podcasterUserToken", token, {
       httpOnly: true,
-      secure: true, // set to true in production (https)
-      sameSite: "none",
+      secure: false, // set to true in production (https)
+      sameSite: "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 d 
     });
 
@@ -83,7 +83,7 @@ router.post("/sign-in", async (req, res) => {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
        secure: true,
-       sameSite: "none",
+       sameSite: "lax",
     
     });
 
@@ -106,8 +106,8 @@ router.post("/sign-in", async (req, res) => {
 router.post("/logout", async (req, res) => {
   res.clearCookie("podcasterUserToken", {
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    secure: false,
+    sameSite: "lax",
     path: "/",
   });
   res.json({ message: "Logged out successfully" });
