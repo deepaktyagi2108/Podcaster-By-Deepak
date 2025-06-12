@@ -106,7 +106,7 @@ router.post("/sign-in", async (req, res) => {
 router.post("/logout", async (req, res) => {
  res.clearCookie("podcasterUserToken", {
   httpOnly: process.env.NODE_ENV == "production" ? true : false,
-  secure: process.env.NODE_ENV == "production" ? true : false,
+  secure: process.env.NODE_ENV == "production" ? false : true,
   sameSite: "lax",
 });
 
