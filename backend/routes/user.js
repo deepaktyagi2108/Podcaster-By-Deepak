@@ -36,14 +36,14 @@ router.post("/sign-up", async (req, res) => {
 
     console.log('JWT_SECRET:', process.env.JWT_SECRET);
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
+      expiresIn: "1d",
     });
 
     res.cookie("podcasterUserToken", token, {
       httpOnly: true,
       secure: false, // set to true in production (https)
       sameSite: "lax",
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 d 
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 d 
     });
 
     return res.status(201).json({ user: newUser });
@@ -76,12 +76,12 @@ router.post("/sign-in", async (req, res) => {
     const token = jwt.sign(
       { id: existingUser._id, email: existingUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: "30d" }
+      { expiresIn: "1d" }
     );
 
     res.cookie("podcasterUserToken", token, {
       httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
        secure: true,
        sameSite: "lax",
     
