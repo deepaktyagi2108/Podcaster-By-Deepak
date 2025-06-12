@@ -1,10 +1,8 @@
-
 const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
-
 
 //sign up
 router.post("/sign-up", async (req, res) => {
@@ -16,11 +14,15 @@ router.post("/sign-up", async (req, res) => {
     }
 
     if (username.length < 5) {
-      return res.status(400).json({ error: "Username must have at least 5 characters" });
+      return res
+        .status(400)
+        .json({ error: "Username must have at least 5 characters" });
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ error: "Password must have at least 6 characters" });
+      return res
+        .status(400)
+        .json({ error: "Password must have at least 6 characters" });
     }
 
     const existingEmail = await User.findOne({ email });
@@ -34,7 +36,7 @@ router.post("/sign-up", async (req, res) => {
     const newUser = new User({ username, email, password: hashedPass });
     await newUser.save();
 
-    console.log('JWT_SECRET:', process.env.JWT_SECRET);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -43,7 +45,7 @@ router.post("/sign-up", async (req, res) => {
       httpOnly: true,
       secure: false, // set to true in production (https)
       sameSite: "lax",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 d 
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 d
     });
 
     return res.status(201).json({ user: newUser });
@@ -72,7 +74,7 @@ router.post("/sign-in", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Wrong password" });
     }
-//token generate
+    //token generate
     const token = jwt.sign(
       { id: existingUser._id, email: existingUser.email },
       process.env.JWT_SECRET,
@@ -80,13 +82,11 @@ router.post("/sign-in", async (req, res) => {
     );
 
     res.cookie("podcasterUserToken", token, {
-      httpOnly: true,
+      httpOnly: process.env.NODE_ENV == "production" ? true : false,
       maxAge: 1 * 24 * 60 * 60 * 1000,
-       secure: true,
-       sameSite: "lax",
-    
+      secure: process.env.NODE_ENV == "production" ? true : false,
+      sameSite: "lax",
     });
-
 
     return res.status(200).json({
       user: {
@@ -104,12 +104,12 @@ router.post("/sign-in", async (req, res) => {
 //LOGOUT ERROR
 
 router.post("/logout", async (req, res) => {
-  res.clearCookie("podcasterUserToken", {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    path: "/",
-  });
+ res.clearCookie("podcasterUserToken", {
+  httpOnly: process.env.NODE_ENV == "production" ? true : false,
+  secure: process.env.NODE_ENV == "production" ? true : false,
+  sameSite: "lax",
+});
+
   res.json({ message: "Logged out successfully" });
 });
 
@@ -121,7 +121,6 @@ router.get("/check-cookie", async (req, res) => {
   }
   return res.status(200).json({ message: false });
 });
-
 
 router.get("/user-details", authMiddleware, async (req, res) => {
   try {

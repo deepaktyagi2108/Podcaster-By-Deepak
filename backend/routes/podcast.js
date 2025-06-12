@@ -22,10 +22,7 @@ router.post(
       const audioFile = req.files?.audioFile?.[0]?.path;
       const audioFilePublicId = req.files?.audioFile?.[0]?.filename;
 
-      console.log("🖼️ frontImage:", frontImage);
-      console.log("🆔 frontImagePublicId:", frontImagePublicId);
-      console.log("🎵 audioFile:", audioFile);
-      console.log("🆔 audioFilePublicId:", audioFilePublicId);
+
 
       if (!title || !description || !category || !frontImage || !audioFile) {
         console.warn("⚠️ Missing required fields");
@@ -61,7 +58,7 @@ router.post(
       await Category.findByIdAndUpdate(cat._id, {
         $push: { podcasts: newPodcast._id },
       });
-      console.log("📁 Podcast added to category:", cat._id);
+      console.log("📁 Podcast added to category : ", cat._id);
 
       await User.findByIdAndUpdate(user._id, {
         $push: { podcasts: newPodcast._id },
@@ -165,6 +162,8 @@ router.get("/get-user-podcasts",authMiddleware,async (req, res) => {
   console.log("GET /get-user-podcasts called");
   try {
     const userId = req.user._id;
+
+    console.log(userId);
 
     // Find podcasts belonging to the logged-in user
     const userPodcasts = await Podcast.find({ user: userId }).populate(
