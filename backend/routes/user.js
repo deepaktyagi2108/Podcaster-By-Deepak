@@ -85,7 +85,7 @@ router.post("/sign-in", async (req, res) => {
       httpOnly: process.env.NODE_ENV == "production" ? true : false,
       maxAge: 1 * 24 * 60 * 60 * 1000,
       secure: process.env.NODE_ENV == "production" ? true : false,
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV=="production"? "none": "lax",
     });
 
     return res.status(200).json({
@@ -104,11 +104,13 @@ router.post("/sign-in", async (req, res) => {
 //LOGOUT ERROR
 
 router.post("/logout", async (req, res) => {
- res.clearCookie("podcasterUserToken", {
-  httpOnly: process.env.NODE_ENV == "production" ? true : false,
-  secure: process.env.NODE_ENV == "production" ? false : true,
-  sameSite: "lax",
+res.clearCookie("podcasterUserToken", {
+  httpOnly: process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "production", 
+  sameSite: process.env.NODE_ENV == "production"?"none":"lax", 
+  path: "/", 
 });
+
 
   res.json({ message: "Logged out successfully" });
 });
