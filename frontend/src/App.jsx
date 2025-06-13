@@ -83,6 +83,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ErrorPage from "./pages/ErrorPage";
 import Profile from "./pages/Profile"; // ✅ Ensure this file exists and is correctly exported
+import EditPodcast from "./pages/EditPodcast";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -106,6 +107,7 @@ const App = () => {
           <Route path="/my-podcasts" element={<YourPodcasts />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/podcast/:id" element={<DescriptionPage />} />
+          <Route path="/edit-podcast/:id" element={<EditPodcast />} />
           <Route path="/add-podcast" element={<AddPodcast />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

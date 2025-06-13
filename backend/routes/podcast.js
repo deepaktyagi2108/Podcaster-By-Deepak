@@ -99,51 +99,7 @@ router.get("/category/:cat", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
-//delete podcasts
-// const fs = require("fs");
-// const path = require("path");
-
-// router.delete("/delete-podcasts/:id", authMiddleware, async (req, res) => {
-//   try {
-//     const podcastId = req.params.id;
-//     const podcast = await Podcast.findById(podcastId);
-
-//     if (!podcast) {
-//       return res.status(404).json({ message: "Podcast not found" });
-//     }
-
-//     if (podcast.user.toString() !== req.user._id.toString()) {
-//       return res.status(403).json({ message: "Unauthorized access" });
-//     }
-
-//     // Delete from Cloudinary
-//     if (podcast.frontImagePublicId) {
-//       await cloudinary.uploader.destroy(podcast.frontImagePublicId);
-//     }
-
-//     if (podcast.audioFilePublicId) {
-//       await cloudinary.uploader.destroy(podcast.audioFilePublicId, {
-//         resource_type: "video",
-//       });
-//     }
-
-//     // Remove podcast references
-//     await Category.findByIdAndUpdate(podcast.category, {
-//       $pull: { podcasts: podcast._id },
-//     });
-
-//     await User.findByIdAndUpdate(podcast.user, {
-//       $pull: { podcasts: podcast._id },
-//     });
-
-//     await Podcast.findByIdAndDelete(podcastId);
-
-//     return res.status(200).json({ message: "Podcast deleted successfully" });
-//   } catch (error) {
-//     console.error("Delete Error:", error);
-//     return res.status(500).json({ message: "Server error while deleting" });
-//   }
-// });
+//delete
 const fs = require("fs");
 const path = require("path");
 
@@ -259,33 +215,7 @@ router.get("/get-podcasts", async (req, res) => {
     return res.status(500).json({ message: "Failed to fetch podcasts" });
   }
 });
-//api for updation
-// router.put("/update-podcast/:id",authMiddleware,async(req,res)=>{
-//   try {
-//     const {title,description}=req.body;//body is object
-//     const podcastId=req.params.id;
-//     const podcast=await Podcast.findById(podcastId);
-//     if(!podcast){
-//       return res.status(404).json({message:"Podcast Not Found"})
-//     }
-//     //only update podcast for owner
-//     if (podcast.user.toString() !== req.user._id.toString()) {
-//       return res.status(403).json({ message: "Unauthorized" });
-//     }
-//     if (!title && !description) {
-//   return res.status(400).json({ message: "No update fields provided" });
-// }
 
-//     //update the fields
-//     podcast.title=title||podcast.title;
-//     podcast.description=description||podcast.description;
-//     await podcast.save();
-//     res.status(200).json({ message: "Podcast updated", podcast });
-//   } catch (error) {
-//     res.status(500).json({ message:"Internal Server Error" });
-//   }
-// })
-// module.exports = router;
 //api for updation
 router.put("/update-podcast/:id", authMiddleware, async (req, res) => {
   try {
