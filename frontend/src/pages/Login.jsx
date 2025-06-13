@@ -57,8 +57,8 @@ const Login = () => {
 
   const handleDummyLogin = async () => {
     const dummyCredentials = {
-      email: "demo@example.com",
-      password: "password123",
+      email: "deepaktyagi123abc@gmail.com",
+      password: "123456",
     };
 
     setValue(dummyCredentials);
