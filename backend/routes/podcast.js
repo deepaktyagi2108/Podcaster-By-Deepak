@@ -6,8 +6,6 @@ const Podcast = require("../models/podcast");
 const Category = require("../models/category");
 const cloudinary = require("../utils/cloudinary");
 const User = require("../models/user");
-
-add
 router.post(
   "/add-podcast",
   authMiddleware,
