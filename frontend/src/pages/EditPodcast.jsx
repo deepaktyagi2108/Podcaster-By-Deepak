@@ -1,8 +1,8 @@
-// src/pages/EditPodcast.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../utils/constants";
+import axios from "axios"; // Make sure axios is imported
 
 const EditPodcast = () => {
   const { id } = useParams();
@@ -11,26 +11,23 @@ const EditPodcast = () => {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPodcast = async () => {
-      try {
+useEffect(() => {
+  const fetchPodcast = async () => {
+    try {
       const res = await axios.get(`${BASE_URL}/podcast/get-podcast/${id}`);
+      const data = res.data.data; // ✅ Access podcast inside data
+      setTitle(data.title);
+      setDescription(data.description);
+    } catch (err) {
+      toast.error("Error fetching podcast");
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchPodcast();
+}, [id]);
 
-        const data = await res.json();
-        if (res.ok) {
-          setTitle(data.title);
-          setDescription(data.description);
-        } else {
-          toast.error("Failed to load podcast");
-        }
-      } catch (err) {
-        toast.error("Error fetching podcast");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPodcast();
-  }, [id]);
+
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -55,31 +52,42 @@ const EditPodcast = () => {
 
   if (loading) return <div className="p-10 text-xl">Loading...</div>;
 
-  return (
-    <div className="max-w-2xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Edit Podcast</h1>
-      <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 text-lg focus:ring-2 focus:ring-blue-400"
-          placeholder="Podcast Title"
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 text-lg h-40 resize-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Podcast Description"
-        />
+ return (
+  <div className="max-w-2xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
+    <h1 className="text-2xl font-bold mb-6 text-center">Edit Podcast</h1>
+    <form onSubmit={handleUpdate} className="flex flex-col gap-4">
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="border border-gray-300 rounded-md p-3 text-lg focus:ring-2 focus:ring-blue-400"
+        placeholder="Podcast Title"
+      />
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="border border-gray-300 rounded-md p-3 text-lg h-40 resize-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Podcast Description"
+      />
+      
+      <div className="flex justify-between">
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-md text-lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md text-lg"
         >
           Save Changes
         </button>
-      </form>
-    </div>
-  );
+        <button
+          type="button"
+          onClick={() => navigate("/my-podcasts")}
+          className="bg-gray-300 hover:bg-gray-400 text-black py-3 px-6 rounded-md text-lg"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+);
+
 };
 
 export default EditPodcast;

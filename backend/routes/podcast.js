@@ -143,7 +143,7 @@ router.delete("/delete-podcasts/:id", authMiddleware, async (req, res) => {
     await sendEmail(
       user.email,
       `❌ Podcast "${podcast.title}" Deleted`,
-      `Hi ${user.username || "there"},\n\nYour podcast titled "${podcast.title}" has been permanently deleted from Podcaster.\n\nWe're sad to see it go, but we hope you'll continue sharing more amazing content soon! 💬🎙️\n\nRegards,\nThe Podcaster Team`
+      `Hi ${user.username || "there"},\n\nYour podcast titled "${podcast.title}" has been permanently deleted from Podcaster.\n\nWe're sad to see it go, but we hope you'll continue sharing more amazing content soon! 💬🎙️\n\nRegards,\n🎙️ Podcaster Team`
     );
     console.log("📧 Deletion email sent to:", user.email);
 
@@ -245,7 +245,7 @@ router.put("/update-podcast/:id", authMiddleware, async (req, res) => {
     await sendEmail(
       user.email,
       `✏️ Your podcast "${podcast.title}" was updated`,
-      `Hi ${user.username || "there"},\n\nGood news! Your podcast titled "${podcast.title}" has been successfully updated.\n\nKeep creating and improving—your voice matters! 🎧✨\n\nCheers,\nThe Podcaster Team`
+      `Hi ${user.username || "there"},\n\nGood news! Your podcast titled "${podcast.title}" has been successfully updated.\n\nKeep creating and improving—your voice matters! 🎧✨\n\nCheers,\n 🎙️ Podcaster Team`
     );
     console.log("📧 Update email sent to:", user.email);
 
