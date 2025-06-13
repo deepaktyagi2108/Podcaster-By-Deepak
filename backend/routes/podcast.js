@@ -6,72 +6,129 @@ const Podcast = require("../models/podcast");
 const Category = require("../models/category");
 const cloudinary = require("../utils/cloudinary");
 const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail");
 //add
-router.post(
-  "/add-podcast",
-  authMiddleware,
-  upload,
-  async (req, res) => {
-    try {
-      const { title, description, category } = req.body;
-      console.log("📥 Request Body:", req.body);
+// router.post(
+//   "/add-podcast",
+//   authMiddleware,
+//   upload,
+//   async (req, res) => {
+//     try {
+//       const { title, description, category } = req.body;
+//       console.log("📥 Request Body:", req.body);
 
-      const frontImage = req.files?.frontImage?.[0]?.path;
-      const frontImagePublicId = req.files?.frontImage?.[0]?.filename;
+//       const frontImage = req.files?.frontImage?.[0]?.path;
+//       const frontImagePublicId = req.files?.frontImage?.[0]?.filename;
 
-      const audioFile = req.files?.audioFile?.[0]?.path;
-      const audioFilePublicId = req.files?.audioFile?.[0]?.filename;
+//       const audioFile = req.files?.audioFile?.[0]?.path;
+//       const audioFilePublicId = req.files?.audioFile?.[0]?.filename;
 
 
 
-      if (!title || !description || !category || !frontImage || !audioFile) {
-        console.warn("⚠️ Missing required fields");
-        return res.status(400).json({ message: "All fields are required" });
-      }
+//       if (!title || !description || !category || !frontImage || !audioFile) {
+//         console.warn("⚠️ Missing required fields");
+//         return res.status(400).json({ message: "All fields are required" });
+//       }
 
-      const { user } = req;
-      console.log("👤 Authenticated User:", user._id);
+//       const { user } = req;
+//       console.log("👤 Authenticated User:", user._id);
 
-      const cat = await Category.findOne({
-        categoryName: { $regex: `^${category}$`, $options: "i" },
-      });
+//       const cat = await Category.findOne({
+//         categoryName: { $regex: `^${category}$`, $options: "i" },
+//       });
 
-      if (!cat) {
-        console.warn("❌ No category found for:", category);
-        return res.status(400).json({ message: "No category found" });
-      }
+//       if (!cat) {
+//         console.warn("❌ No category found for:", category);
+//         return res.status(400).json({ message: "No category found" });
+//       }
 
-      const newPodcast = new Podcast({
-        title,
-        description,
-        category: cat._id,
-        frontImage,
-        frontImagePublicId,
-        audioFile,
-        audioFilePublicId,
-        user: user._id,
-      });
+//       const newPodcast = new Podcast({
+//         title,
+//         description,
+//         category: cat._id,
+//         frontImage,
+//         frontImagePublicId,
+//         audioFile,
+//         audioFilePublicId,
+//         user: user._id,
+//       });
 
-      await newPodcast.save();
-      console.log("✅ Podcast saved:", newPodcast._id);
+//       await newPodcast.save();
+//       console.log("✅ Podcast saved:", newPodcast._id);
 
-      await Category.findByIdAndUpdate(cat._id, {
-        $push: { podcasts: newPodcast._id },
-      });
-      console.log("📁 Podcast added to category : ", cat._id);
+//       await Category.findByIdAndUpdate(cat._id, {
+//         $push: { podcasts: newPodcast._id },
+//       });
+//       console.log("📁 Podcast added to category : ", cat._id);
 
-      await User.findByIdAndUpdate(user._id, {
-        $push: { podcasts: newPodcast._id },
-      });
-      console.log("👤 Podcast added to user:", user._id);
+//       await User.findByIdAndUpdate(user._id, {
+//         $push: { podcasts: newPodcast._id },
+//       });
+//       console.log("👤 Podcast added to user:", user._id);
 
-      return res.status(201).json({ message: "Podcast added successfully" });
-    } catch (error) {
-      console.error("❌ Upload Error:", error);
-      return res.status(500).json({ message: "Failed to add podcast" });
+//       return res.status(201).json({ message: "Podcast added successfully" });
+//     } catch (error) {
+//       console.error("❌ Upload Error:", error);
+//       return res.status(500).json({ message: "Failed to add podcast" });
+//     }
+//   }
+// );
+router.post("/add-podcast", authMiddleware, upload, async (req, res) => {
+  try {
+    const { title, description, category } = req.body;
+    const frontImage = req.files?.frontImage?.[0]?.path;
+    const frontImagePublicId = req.files?.frontImage?.[0]?.filename;
+    const audioFile = req.files?.audioFile?.[0]?.path;
+    const audioFilePublicId = req.files?.audioFile?.[0]?.filename;
+
+    if (!title || !description || !category || !frontImage || !audioFile) {
+      return res.status(400).json({ message: "All fields are required" });
     }
+
+    const { user } = req;
+
+    const cat = await Category.findOne({
+      categoryName: { $regex: `^${category}$`, $options: "i" },
+    });
+
+    if (!cat) {
+      return res.status(400).json({ message: "No category found" });
+    }
+
+    const newPodcast = new Podcast({
+      title,
+      description,
+      category: cat._id,
+      frontImage,
+      frontImagePublicId,
+      audioFile,
+      audioFilePublicId,
+      user: user._id,
+    });
+
+    await newPodcast.save();
+
+    await Category.findByIdAndUpdate(cat._id, {
+      $push: { podcasts: newPodcast._id },
+    });
+
+    await User.findByIdAndUpdate(user._id, {
+      $push: { podcasts: newPodcast._id },
+    });
+
+    // ✅ Send confirmation email
+    await sendEmail(
+      user.email,
+      `🎧 Your podcast "${title}" is now live!`,
+      `Hi ${user.name || "there"},\n\nYour podcast "${title}" has been uploaded successfully to Podcaster.\n\nKeep creating awesome content!\n\nCheers,\nTeam Podcaster`
+    );
+
+    return res.status(201).json({ message: "Podcast added successfully" });
+  } catch (error) {
+    console.error("❌ Upload Error:", error);
+    return res.status(500).json({ message: "Failed to add podcast" });
   }
-);
+});
 
 
 //by categories
