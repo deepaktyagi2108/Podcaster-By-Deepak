@@ -12,6 +12,7 @@ const EditPodcast = () => {
   const [loading, setLoading] = useState(true);
 
 useEffect(() => {
+  console.log("Podcast ID from URL:", id);
   const fetchPodcast = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/podcast/get-podcast/${id}`);
