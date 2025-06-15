@@ -73,7 +73,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
 
   return (
     <Link to={`/podcast/${items._id}`} className="no-underline text-inherit">
-    <div className="relative border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-4 h-[400px]max-h-[450px] bg-white">
+    <div className="relative border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-4 min-h-[400px]max-h-[450px] bg-white">
       {showFavorite && isLoggedIn && (
         <button
           className="absolute top-3 right-3"
