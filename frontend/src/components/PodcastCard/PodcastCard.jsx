@@ -1,4 +1,4 @@
-// src/components/PodcastCard/PodcastCard.jsx
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { playerActions } from "../../store/player";
 import { addFavorite, removeFavorite } from "../../store/favorites";
 import { BASE_URL } from "../../utils/constants";
+import { Link } from "react-router-dom";
+
 
 const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
   const dispatch = useDispatch();
@@ -70,6 +72,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
   };
 
   return (
+    <Link to={`/podcast/${items._id}`} className="no-underline text-inherit">
     <div className="relative border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-4 h-[580px] bg-white">
       {showFavorite && isLoggedIn && (
         <button
@@ -125,6 +128,7 @@ const PodcastCard = ({ items, showFavorite = true, onDelete }) => {
         )}
       </div>
     </div>
+    </Link>
   );
 };
 
