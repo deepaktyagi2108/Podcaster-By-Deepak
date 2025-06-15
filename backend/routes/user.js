@@ -14,10 +14,14 @@ router.post("/sign-up", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
 
     if (username.length < 5)
-      return res.status(400).json({ error: "Username must have at least 5 characters" });
+      return res
+        .status(400)
+        .json({ error: "Username must have at least 5 characters" });
 
     if (password.length < 6)
-      return res.status(400).json({ error: "Password must have at least 6 characters" });
+      return res
+        .status(400)
+        .json({ error: "Password must have at least 6 characters" });
 
     const existingEmail = await User.findOne({ email });
     const existingUsername = await User.findOne({ username });
@@ -29,13 +33,15 @@ router.post("/sign-up", async (req, res) => {
     const newUser = new User({ username, email, password: hashedPass });
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
     res.cookie("podcasterUserToken", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      httpOnly: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     await sendEmail(
@@ -64,8 +70,7 @@ router.post("/sign-in", async (req, res) => {
       return res.status(400).json({ error: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
-    if (!isMatch)
-      return res.status(400).json({ error: "Wrong password" });
+    if (!isMatch) return res.status(400).json({ error: "Wrong password" });
 
     const token = jwt.sign(
       { id: existingUser._id, email: existingUser.email },
@@ -121,8 +126,3 @@ router.get("/user-details", authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-     
